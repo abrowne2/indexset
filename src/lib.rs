@@ -77,6 +77,8 @@ type Node<T> = Vec<T>;
 /// let set = BTreeSet::from_iter([1, 2, 3]);
 /// ```
 #[derive(
+    Serialize,
+    Deserialize,
     Debug,
     Clone,
     PartialEq,
