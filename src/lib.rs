@@ -11,7 +11,6 @@ use core::constants::DEFAULT_INNER_SIZE;
 use core::node::*;
 use core::pair::Pair;
 use ftree::FenwickTree;
-#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -77,8 +76,22 @@ type Node<T> = Vec<T>;
 ///
 /// let set = BTreeSet::from_iter([1, 2, 3]);
 /// ```
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq, PartialOrd, Ord,
+    Hash,
+    rkyv::Archive,
+    rkyv::Deserialize,
+    rkyv::Serialize,
+)]
+#[archive(bound(
+    serialize = "T: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
+))]
+#[archive(bound(
+    deserialize = "T: rkyv::Archive, <T as rkyv::Archive>::Archived: rkyv::Deserialize<T, __D>, __D: rkyv::de::SharedDeserializeRegistry"
+))]
 pub struct BTreeSet<T>
 where
     T: Ord,
@@ -1936,8 +1949,7 @@ where
 ///     ("Mars", 1.5),
 /// ]);
 /// ```
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct BTreeMap<K, V>
 where
     K: Ord,

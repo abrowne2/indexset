@@ -1,10 +1,8 @@
 use core::cmp::Ordering;
-#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use std::borrow::Borrow;
 
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Default, Clone, Hash)]
+#[derive(Debug, Default, Clone, Hash, Serialize, Deserialize)]
 pub struct Pair<K, V>
 {
     pub key: K,

@@ -2,14 +2,12 @@ use std::fmt::Debug;
 use std::{borrow::Borrow, mem::MaybeUninit};
 
 use core::cmp::Ordering;
-#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use fastrand;
 
 use crate::core::pair::Pair;
 
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Default, Clone, Hash)]
+#[derive(Debug, Default, Clone, Hash, Serialize, Deserialize)]
 pub struct MultiPair<K, V> {
     pub key: K,
     pub value: V,
