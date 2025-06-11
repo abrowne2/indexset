@@ -2,7 +2,23 @@ use core::cmp::Ordering;
 use serde::{Deserialize, Serialize};
 use std::borrow::Borrow;
 
-#[derive(Debug, Default, Clone, Hash, Serialize, Deserialize)]
+#[derive(
+    Debug,
+    Default,
+    Clone,
+    Hash,
+    Serialize,
+    Deserialize,
+    rkyv::Archive,
+    rkyv::Deserialize,
+    rkyv::Serialize,
+)]
+#[archive(bound(
+    serialize = "K: rkyv::Archive + rkyv::Serialize<__S>, V: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
+))]
+#[archive(bound(
+    deserialize = "K: rkyv::Archive, V: rkyv::Archive, <K as rkyv::Archive>::Archived: rkyv::Deserialize<K, __D>, <V as rkyv::Archive>::Archived: rkyv::Deserialize<V, __D>, __D: rkyv::de::SharedDeserializeRegistry"
+))]
 pub struct Pair<K, V>
 {
     pub key: K,
