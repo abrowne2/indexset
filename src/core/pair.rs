@@ -13,6 +13,7 @@ use std::borrow::Borrow;
     rkyv::Deserialize,
     rkyv::Serialize,
 )]
+#[archive(check_bytes)]
 #[archive(bound(
     serialize = "K: rkyv::Archive + rkyv::Serialize<__S>, V: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
 ))]

@@ -88,6 +88,7 @@ type Node<T> = Vec<T>;
     rkyv::Deserialize,
     rkyv::Serialize,
 )]
+#[archive(check_bytes)]
 #[archive(bound(
     serialize = "T: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
 ))]
@@ -1963,6 +1964,7 @@ where
     rkyv::Deserialize,
     rkyv::Serialize,
 )]
+#[archive(check_bytes)]
 #[archive(bound(
     serialize = "K: rkyv::Archive + rkyv::Serialize<__S>, V: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
 ))]
