@@ -1951,7 +1951,24 @@ where
 ///     ("Mars", 1.5),
 /// ]);
 /// ```
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(
+    Serialize,
+    Deserialize,
+    Debug,
+    Clone,
+    PartialEq,
+    Eq, PartialOrd, Ord,
+    Hash,
+    rkyv::Archive,
+    rkyv::Deserialize,
+    rkyv::Serialize,
+)]
+#[archive(bound(
+    serialize = "K: rkyv::Archive + rkyv::Serialize<__S>, V: rkyv::Archive + rkyv::Serialize<__S>, __S: rkyv::ser::Serializer + rkyv::ser::SharedSerializeRegistry + Sized"
+))]
+#[archive(bound(
+    deserialize = "K: rkyv::Archive, V: rkyv::Archive, <K as rkyv::Archive>::Archived: rkyv::Deserialize<K, __D>, <V as rkyv::Archive>::Archived: rkyv::Deserialize<V, __D>, __D: rkyv::de::SharedDeserializeRegistry"
+))]
 pub struct BTreeMap<K, V>
 where
     K: Ord,
